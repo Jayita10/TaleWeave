@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ story.title }}</title>
+</head>
+<body>
+    <h1>{{ story.title }}</h1>
+    <p>{{ story.description }}</p>
+
+    <h2>Decisions</h2>
+    <ul>
+        {% for decision in story.decision_set.all %}
+            <li>
+                <strong>{{ decision.author }}</strong>: {{ decision.text }}
+            </li>
+        {% empty %}
+            <li>No decisions have been made yet.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Make a Decision</h2>
+    <form method="post" action="{% url 'submit_decision' story.id %}">
+        {% csrf_token %}
+        <label for="decision">Your Decision:</label><br>
+        <textarea id="decision" name="decision" rows="4" required></textarea><br><br>
+
+        <button type="submit">Submit Decision</button>
+    </form>
+
+</body>
+</html>
